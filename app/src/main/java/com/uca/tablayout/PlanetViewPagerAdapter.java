@@ -1,5 +1,6 @@
 package com.uca.tablayout;
 
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -30,6 +31,12 @@ public class PlanetViewPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return fragmentList.size();
+    }
+
+    @Nullable
+    @Override
+    public CharSequence getPageTitle(int position){
+        return titleList.get(position);
     }
 
     public void AddItem(String titleList, Fragment fragment){
