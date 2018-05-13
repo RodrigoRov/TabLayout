@@ -44,6 +44,26 @@ public class MainActivity extends AppCompatActivity {
         pagerAdapter.AddItem("Favoritos",favoriteFragment);
 
         viewPager = findViewById(R.id.view_pager);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            int currentPosition = 0;
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int newposition) {
+                PlanetViewPagerAdapter.FragmentLifeCycle fragmentShow = (PlanetViewPagerAdapter.FragmentLifeCycle) pagerAdapter.getItem(newposition);
+                fragmentShow.onResumeFragment();
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         viewPager.setAdapter(pagerAdapter);
 
         tabLayout = findViewById(R.id.tab_layout);
@@ -61,5 +81,6 @@ public class MainActivity extends AppCompatActivity {
         for(int i =0;i<desc.length;i++){
             planetList.add(new Planet(titulos[i],desc[i],imagenes.getResourceId(i,-1)));
         }
+        imagenes.recycle();
     }
 }

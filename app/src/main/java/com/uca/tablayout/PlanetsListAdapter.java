@@ -18,17 +18,25 @@ import java.util.List;
 public class PlanetsListAdapter extends RecyclerView.Adapter<PlanetsListAdapter.ViewHolder> {
     Context mCtx;
     List<Planet> planets;
+    boolean isFav = true;
 
-    public PlanetsListAdapter(Context mCtx, List<Planet> planets){
+    public PlanetsListAdapter(Context mCtx, List<Planet> planets,boolean isFav){
         this.mCtx = mCtx;
         this.planets = planets;
+        this.isFav = isFav;
     }
 
     @Override
     public PlanetsListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mCtx);
-        View v = inflater.inflate(R.layout.planet_cardview,null);
-        return new PlanetsListAdapter.ViewHolder(v);
+        if(!isFav) {
+            View v = inflater.inflate(R.layout.planet_cardview, null);
+            return new PlanetsListAdapter.ViewHolder(v);
+        }else {
+            View v = inflater.inflate(R.layout.planet_sinimagebutton, null);
+            return new PlanetsListAdapter.ViewHolder(v);
+        }
+
     }
 
     @Override
@@ -42,18 +50,19 @@ public class PlanetsListAdapter extends RecyclerView.Adapter<PlanetsListAdapter.
                 public void onClick(View v) {
                     Planet planet = planets.get(position);
                     planet.setFav(!planet.isFav());
-                    if(holder.Nofav) {
+                    if (holder.Nofav) {
                         holder.boton.setImageResource(android.R.drawable.btn_star_big_on);
                         holder.Nofav = !holder.Nofav;
-                    }else {
+                    } else {
                         holder.boton.setImageResource(android.R.drawable.btn_star_big_off);
                         holder.Nofav = !holder.Nofav;
                     }
                 }
             });
-        }catch (NullPointerException ignored){
+        } catch (NullPointerException ignored) {
             //Log.d("Exception",ignored.getMessage());
         }
+
     }
 
     @Override
