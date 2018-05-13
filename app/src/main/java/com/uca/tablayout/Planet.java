@@ -8,6 +8,7 @@ class Planet {
     String titulo;
     String desc;
     int Imagen;
+    boolean fav = false;
 
     public Planet(String titulo,String desc,int Imagen){
         this.titulo = titulo;
@@ -37,5 +38,13 @@ class Planet {
 
     public void setImagen(int imagen) {
         Imagen = imagen;
+    }
+
+    public boolean isFav() {
+        return fav;
+    }
+
+    public void setFav(boolean fav) {
+        this.fav = fav;
     }
 }

@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,10 +32,28 @@ public class PlanetsListAdapter extends RecyclerView.Adapter<PlanetsListAdapter.
     }
 
     @Override
-    public void onBindViewHolder(PlanetsListAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(final PlanetsListAdapter.ViewHolder holder, final int position) {
         holder.titulo.setText(planets.get(position).getTitulo());
         holder.desc.setText(planets.get(position).getDesc());
         holder.imagen.setImageResource(planets.get(position).getImagen());
+        try {
+            holder.boton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Planet planet = planets.get(position);
+                    planet.setFav(!planet.isFav());
+                    if(holder.Nofav) {
+                        holder.boton.setImageResource(android.R.drawable.btn_star_big_on);
+                        holder.Nofav = !holder.Nofav;
+                    }else {
+                        holder.boton.setImageResource(android.R.drawable.btn_star_big_off);
+                        holder.Nofav = !holder.Nofav;
+                    }
+                }
+            });
+        }catch (NullPointerException ignored){
+            //Log.d("Exception",ignored.getMessage());
+        }
     }
 
     @Override
@@ -45,11 +64,14 @@ public class PlanetsListAdapter extends RecyclerView.Adapter<PlanetsListAdapter.
     protected class ViewHolder extends RecyclerView.ViewHolder{
         TextView titulo,desc;
         ImageView imagen;
+        ImageButton boton;
+        boolean Nofav = true;
         public ViewHolder(View itemView) {
             super(itemView);
             titulo = itemView.findViewById(R.id.titulo);
             desc = itemView.findViewById(R.id.descripcion);
             imagen = itemView.findViewById(R.id.Imagen);
+            boton = itemView.findViewById(R.id.boton);
         }
     }
 

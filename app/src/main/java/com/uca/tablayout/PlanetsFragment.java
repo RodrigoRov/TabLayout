@@ -18,21 +18,28 @@ import java.util.List;
  * Created by uca on 05-07-18.
  */
 
-public class PlanetsFragment extends Fragment {
+public class PlanetsFragment extends Fragment implements PlanetViewPagerAdapter.FragmentLifeCycle{
     RecyclerView recyclerView;
     List<Planet> planetList;
     PlanetsListAdapter planetsListAdapter;
+    boolean isFav=true;
 
     public PlanetsFragment() {
         planetList = new ArrayList<>();
     }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.planets_list,container,false);
 
-        planetsListAdapter = new PlanetsListAdapter(getContext(),planetList);
+        if(isFav) {
+            ArrayList<Planet> aux = new ArrayList<>();
+            for (Planet p: planetList) {
+                if (p.isFav())
+                    aux.add(p);
+            }
+            planetsListAdapter = new PlanetsListAdapter(getContext(),aux);
+        }else
+            planetsListAdapter = new PlanetsListAdapter(getContext(),planetList);
 
         recyclerView = v.findViewById(R.id.recycler_view);
         recyclerView.setAdapter(planetsListAdapter);
@@ -50,5 +57,32 @@ public class PlanetsFragment extends Fragment {
 
     public void setPlanetsListAdapter(PlanetsListAdapter planetsListAdapter) {
         this.planetsListAdapter = planetsListAdapter;
+    }
+
+    public boolean isFav() {
+        return isFav;
+    }
+
+    public void setFav(boolean fav) {
+        isFav = fav;
+    }
+
+    @Override
+    public void onPauseFragment() {
+
+    }
+
+    @Override
+    public void onResumeFragment() {
+        if(isFav) {
+            ArrayList<Planet> aux = new ArrayList<>();
+            for (Planet p: planetList) {
+                Log.d("nombre de PLa",p.getTitulo());
+                Log.d("estado FAv",String.valueOf(p.isFav()));
+                if (p.isFav())
+                    aux.add(p);
+            }
+            planetsListAdapter = new PlanetsListAdapter(getContext(),aux);
+        }
     }
 }
